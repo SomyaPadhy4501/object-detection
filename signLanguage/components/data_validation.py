@@ -41,5 +41,18 @@ class DataValidation:
             
         except Exception as e:
             raise SignException(e , sys)
-
-        
+    
+    def initiate_data_validation(self) -> DataValidationArtifact:
+        logging.info("Entered initiate_data_validation method") 
+        try:
+            status = self.validate_all_file_exsist()
+            data_validation_artifact =  DataValidationArtifact(
+                validation_status=status
+            )
+            logging.info("Exited initiate_data_validation method")
+            logging.info(f"Data validation artifact: {data_validation_artifact}")
+            if status:
+                shutil.copy(self.data_ingestion_artifact.data_zip_file_path, os.getcwd())
+                return data_validation_artifact
+        except Exception as e:
+            raise SignException(e , sys)
