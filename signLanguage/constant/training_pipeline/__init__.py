@@ -25,7 +25,7 @@ DATA_VALIDATION_STATUS_FILE = 'status.txt'
 DATA_VALIDATION_ALL_REQUIRED_FILES = ["train" , "test" , "data.yaml"]
 
 """
-MODEL TRAINER related comstant start with MODEL_TRAINER var name
+MODEL TRAINER related constant start with MODEL_TRAINER var name
 """
 MODEL_TRAINER_DIR_NAME: str = "model_trainer"
 
@@ -34,3 +34,10 @@ MODEL_TRAINER_PRETRAINED_WEIGHT_NAME: str = "yolov5s.pt"
 MODEL_TRAINER_NO_EPOCHS: int = 300
 
 MODEL_TRAINER_BATCH_SIZE: int = 16
+
+"""
+MODEL PUSHER related constant
+"""
+
+BUCKET_NAME = "sign_language_detection_01"
+S3_MODEL_NAME = "best.pt"
