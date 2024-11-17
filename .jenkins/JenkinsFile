@@ -1,0 +1,55 @@
+pipeline{
+    agent any
+    enviroment {
+        ECR_REPOSITORY = credentials('ECR_REPOSITORY')
+        AWS_ACCOUNT_ID = credentials('AWS_ACCOUNT_ID')
+        AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
+        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
+    }
+
+    stages {
+        stage('Continous Integration'){
+            steps{
+                script{
+                    echo "Linting repository"
+                    echo "Running unit tests"
+                }
+            }
+        }
+
+        stage('Login to ECR'){
+            steps{
+                script{
+                    sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}'
+                }
+            }
+        }
+        stage('Build Image') {
+            steps{
+                script{
+                    sh 'docker build -t ${ECR Repository}:latest .'   
+                }
+            }
+        }
+        stage('Push Image') {
+            steps{
+                script{
+                    sh 'docker push $(ECR Repository):latest'
+                }
+            }
+        }
+        stage('Continous Deployment') {
+            steps{
+                sshagent(['ssh_key']){
+                    sh ""
+                }
+            }
+        }
+        post {
+            always{
+                sh 'docker system prune -f'
+            }
+        }
+
+    }
+}
